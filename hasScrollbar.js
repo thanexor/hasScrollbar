@@ -1,49 +1,51 @@
 /*
  * hasScrollbar
- * 1.0, March 13th, 2014
+ * 1.1, October 13th, 2017
  *
  * Determines if your jQuery-selected elements have a scrollbar.
  *
- * Copyright 2014 Thane Woidan, thanewoidan.com
+ * Copyright 2014-2017 Thane Woidan, thanewoidan.com
  * Released under the MIT License
  */
 
 (function ( $ ) {
-        "use strict";
+  "use strict";
 
-        $.fn.hasScrollbar = function () {
-            var HORIZ_CLASS = 'hasHorizScrollbar'
-            var VERT_CLASS =  'hasVertScrollbar'
+  $.fn.hasScrollbar = function (options) {
+    var settings = $.extend({
+      vertClass:  'hasVertScrollbar',
+      horizClass: 'hasHorizScrollbar',
+    }, options);
 
-            var hasVertScrollbar = function (ele) {
-                ele.scrollTop = 1;
+    var hasVertScrollbar = function (ele) {
+      ele.scrollTop = 1;
 
-                if (ele.scrollTop === 0 || ele.style.overflowY === 'hidden') {
-                    return false;
-                } else {
-                    ele.scrollTop = 0;
-                    return true;
-                }
-            };
+      if (ele.scrollTop === 0 || ele.style.overflowY === 'hidden') {
+        return false;
+      } else {
+        ele.scrollTop = 0;
+        return true;
+      }
+    };
 
-            var hasHorizScrollbar = function (ele) {
-                ele.scrollLeft = 1;
+    var hasHorizScrollbar = function (ele) {
+      ele.scrollLeft = 1;
 
-                if (ele.scrollLeft === 0 || ele.style.overflowX === 'hidden') {
-                    ele.scrollLeft = 0;
-                    return false;
-                } else {
-                    ele.scrollLeft = 0;
-                    return true;
-                }
-            };
+      if (ele.scrollLeft === 0 || ele.style.overflowX === 'hidden') {
+        ele.scrollLeft = 0;
+        return false;
+      } else {
+        ele.scrollLeft = 0;
+        return true;
+      }
+    };
 
-            return $(this).each(function() {
-                var $this = $(this);
+    return $(this).each(function() {
+      var $this = $(this);
 
-                hasVertScrollbar(this)  ? $this.addClass(VERT_CLASS)  : $this.removeClass(VERT_CLASS);
-                hasHorizScrollbar(this) ? $this.addClass(HORIZ_CLASS) : $this.removeClass(HORIZ_CLASS);
-            });
-        };
+      hasVertScrollbar(this)  ? $this.addClass(settings.vertClass)  : $this.removeClass(settings.vertClass);
+      hasHorizScrollbar(this) ? $this.addClass(settings.horizClass) : $this.removeClass(settings.horizClass);
+    });
+  };
 
 }(jQuery));
